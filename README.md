@@ -1,4 +1,5 @@
 <!-- spell:disable -->
+<!-- markdownlint-disable MD033 -->
 # Docker to GCP VM
 
 This is a [GitHub Action](https://github.com/features/actions) that can deploy any [Docker](https://www.bitovi.com/academy/learn-docker.html)-based app
@@ -18,7 +19,7 @@ The Action will:
 
 Obviously this refers to GCP but the flow is the same!
 
-[![Getting Started - Youtube](https://img.youtube.com/vi/oya5LuHUCXc/0.jpg)](https://www.youtube.com/watch?v=oya5LuHUCXc)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oya5LuHUCXc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## Requirements
 
