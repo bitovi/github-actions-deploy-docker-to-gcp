@@ -1,0 +1,177 @@
+name: 'Deploy Docker App to GCP'
+description: 'Deploy a Docker app to a GCP Virtual Machine with Docker Compose'
+branding:
+  icon: upload-cloud
+  color: red
+inputs:
+  checkout:
+    description: 'Specifies if this action should checkout the code'
+    required: false
+    default: 'true'
+  # gcp_access_key_id:
+  #   description: 'GCP access key ID'
+  #   required: true
+  gcp_secret_access_key:
+    description: 'GCP secret access key'
+    required: true
+  # aws_session_token:
+  #   description: 'AWS session token'
+  #   required: false
+  gcp_default_region:
+    description: 'GCP default region'
+    required: true
+    default: 'us-east-1'
+  gcp_image_id:
+    description: 'GCP Machine Image ID. Will default to the latest Ubuntu 22.04 server image (HVM) '
+    required: false
+    default: ''
+  tf_state_bucket:
+    description: 'AWS S3 bucket to use for Terraform state. Defaults to `${org}-${repo}-{branch}-tf-state`'
+    required: false
+  tf_state_bucket_destroy:
+    description: 'Force purge and deletion of S3 bucket defined. Any file contained there will be destroyed. `stack_destroy` must also be `true`'
+    required: false
+    default: 'false'
+  repo_env:
+    description: 'File containing environment variables to be used with the app'
+    required: false
+    default: 'repo_env'
+  dot_env:
+    description: '`.env` file to be used with the app from Github secrets'
+    required: false
+  ghv_env:
+    description: '`.env` file to be used with the app from Github variables'
+    required: false
+  aws_secret_env:
+    description: 'Secret name to pull env variables from AWS Secret Manager'
+    required: false
+    default: ''
+  app_port:
+    description: 'Port to expose for the app'
+    required: false
+    default: '3000'
+  lb_port:
+    description: 'Load balancer listening port. Defaults to 80 if NO FQDN provided, 443 if FQDN provided'
+    required: false
+  lb_healthcheck: 
+    description: 'Load balancer health check string. Defaults to HTTP:app_port'
+    required: false
+  ec2_instance_profile:
+    description: 'The AWS IAM instance profile to use for the EC2 instance'
+  ec2_instance_type: 
+    description: 'The AWS Instance type'
+    required: false
+    default: 't2.small'
+  stack_destroy:
+    description: 'Set to "true" to Destroy the stack. Will delete the elb_logs bucket after the destroy action runs.'
+  aws_resource_identifier:
+    description: 'Set to override the AWS resource identifier for the deployment.  Defaults to `${org}-{repo}-{branch}`.  Use with destroy to destroy specific resources.'
+  domain_name:
+    description: 'Define the root domain name for the application. e.g. app.com'
+    required: false
+  sub_domain:
+    description: 'Define the sub-domain part of the URL. Defaults to `${org}-${repo}-{branch}`'
+  root_domain:
+    description: 'Deploy to root domain. Will generate two DNS recrods, one for root, another for www'
+    required: false
+  cert_arn:
+    description: 'Define the certificate ARN to use for the application'
+    required: false
+  create_root_cert:
+    description: 'Generates and manage the root cert for the application'
+    required: false
+  create_sub_cert: 
+    description: 'Generates and manage the sub-domain certificate for the application'
+    required: false
+  no_cert:
+    description: 'Makes the application not to use a certificate by disabling certificate lookup.'
+    required: false
+  app_directory:
+    description: 'Relative path for the directory of the app (i.e. where `Dockerfile` and `docker-compose.yaml` files are located). This is the directory that is copied to the EC2 instance.  Default is the root of the repo.'
+  create_keypair_sm_entry:
+    required: false
+    description: "Generates and manage a secret manager entry that contains the public and private keys created for the ec2 instance."
+    default: false
+  additional_tags:
+    description: 'A list of additional tags that will be included on created resources. Example: `{"key1": "value1", "key2": "value2"}`'
+    required: false
+    default: '{}'
+outputs:
+  vm_url:
+    description: "The URL of the generated app"
+    value: ${{ steps.deploy.outputs.vm_url }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout if required
+      if: ${{ inputs.checkout == 'true' }}
+      uses: actions/checkout@v3
+
+    - name: Deploy with BitOps
+      id: deploy
+      shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+        BITOPS_ENVIRONMENT: deployment
+        AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
+        AWS_SESSION_TOKEN: ${{ inputs.aws_session_token }}
+        AWS_DEFAULT_REGION: ${{ inputs.aws_default_region }}
+        AWS_AMI_ID: ${{ inputs.aws_ami_id }}
+        TF_STATE_BUCKET: ${{ inputs.tf_state_bucket }}
+        TF_STATE_BUCKET_DESTROY: ${{ inputs.tf_state_bucket_destroy }}
+        REPO_ENV: ${{ inputs.repo_env }}
+        GHS_ENV: ${{ inputs.dot_env }}
+        GHV_ENV: ${{ inputs.ghv_env }}
+        AWS_SECRET_ENV: ${{ inputs.aws_secret_env }}
+        APP_PORT: ${{ inputs.app_port }}
+        LB_PORT: ${{ inputs.lb_port }}
+        LB_HEALTHCHECK: ${{ inputs.lb_healthcheck }}
+        EC2_INSTANCE_PROFILE: ${{ inputs.ec2_instance_profile }}
+        EC2_INSTANCE_TYPE: ${{ inputs.ec2_instance_type }}
+        STACK_DESTROY: ${{ inputs.stack_destroy }}
+        AWS_RESOURCE_IDENTIFIER: ${{ inputs.aws_resource_identifier }}
+        DOMAIN_NAME: ${{ inputs.domain_name }}
+        SUB_DOMAIN: ${{ inputs.sub_domain }}
+        ROOT_DOMAIN: ${{ inputs.root_domain }}
+        CERT_ARN: ${{ inputs.cert_arn }}
+        CREATE_ROOT_CERT: ${{ inputs.create_root_cert }}
+        CREATE_SUB_CERT: ${{ inputs.create_sub_cert }}
+        NO_CERT: ${{ inputs.no_cert }}
+        BITOPS_FAST_FAIL: true
+        APP_DIRECTORY: ${{ inputs.app_directory }}
+        CREATE_KEYPAIR_SM_ENTRY: ${{ inputs.create_keypair_sm_entry }}
+        ADDITIONAL_TAGS: ${{ inputs.additional_tags }}
+      run: |
+        echo "running operations/_scripts/deploy/deploy.sh"
+        $GITHUB_ACTION_PATH/operations/_scripts/deploy/deploy.sh
+        echo "running operations/_scripts/deploy/export_vars.sh"
+        $GITHUB_ACTION_PATH/operations/_scripts/deploy/export_vars.sh
+
+    # output results to GitHub
+    - if: ${{ success() && steps.deploy.outputs.vm_url != '' }}
+      name: Print result created
+      shell: bash
+      run: |
+        echo "## VM Created! :rocket:" >> $GITHUB_STEP_SUMMARY
+        echo " ${{ steps.deploy.outputs.vm_url }}" >> $GITHUB_STEP_SUMMARY
+    - if: ${{ success() && steps.deploy.outputs.vm_url == '' && inputs.tf_state_bucket_destroy == 'false' }}
+      name: Print result destroyed
+      shell: bash
+      run: |
+        echo "## VM Destroyed! :boom:" >> $GITHUB_STEP_SUMMARY
+        echo "Infrastructure should be gone now!" >> $GITHUB_STEP_SUMMARY
+    - if: ${{ success() && steps.deploy.outputs.vm_url == '' && inputs.tf_state_bucket_destroy == 'true' }}
+      name: Print result destroyed
+      shell: bash
+      run: |
+        echo "## VM Destroyed! :boom:" >> $GITHUB_STEP_SUMMARY
+        echo "Buckets and infrastructure should be gone now!" >> $GITHUB_STEP_SUMMARY
+    - if: ${{ failure() }} 
+      name: Print error result
+      shell: bash
+      run: |
+        echo "## Workflow failed to run :fire:" >> $GITHUB_STEP_SUMMARY
+        echo "Please check the logs for possible errors." >> $GITHUB_STEP_SUMMARY
+        echo "If you consider this is a bug in the Github Action, please submit an issue to our repo." >> $GITHUB_STEP_SUMMARY
