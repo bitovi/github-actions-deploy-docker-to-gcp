@@ -1,7 +1,5 @@
-variable "GCP_PROJECT_ID" {
-  type    = string
-  default = "278540881566"
-}
+# uses env var TF_VAR_GCP_PROJECT_ID
+variable "GCP_PROJECT_ID" {}
 
 variable "name" {
   type    = string
