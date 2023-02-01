@@ -19,7 +19,7 @@ The Action will:
 
 Obviously this refers to GCP but the flow is the same!
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/oya5LuHUCXc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[![Getting Started - Youtube](https://img.youtube.com/vi/oya5LuHUCXc/0.jpg)](https://www.youtube.com/watch?v=oya5LuHUCXc)
 
 ## Requirements
 
