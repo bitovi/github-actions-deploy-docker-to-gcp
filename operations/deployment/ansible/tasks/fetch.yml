@@ -1,0 +1,14 @@
+# copy the repo code to the VM
+- name: syncrhonize repo
+  ansible.posix.synchronize:
+    src: "{{ lookup('ansible.builtin.env', 'ANSIBLE_ROOT') }}/app/{{ app_repo_name }}"
+    dest: "{{ app_install_root }}"
+  register: synchro_repo_output
+
+- ansible.builtin.debug:
+    var: synchro_repo_output
+
+- name: copy the .env file
+  copy:
+    src: "{{ lookup('ansible.builtin.env', 'ANSIBLE_ROOT') }}/app.env"
+    dest: "{{ app_install_root }}/{{ app_repo_name }}/.env"

@@ -8,7 +8,7 @@ variable "name" {
 
 variable "machine_type" {
   type    = string
-  default = "n1-standard-1"
+  default = "e2-standard-1"
 }
 
 variable "image" {

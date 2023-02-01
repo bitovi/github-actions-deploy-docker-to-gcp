@@ -26,10 +26,10 @@ inputs:
     required: false
     default: ''
   tf_state_bucket:
-    description: 'AWS S3 bucket to use for Terraform state. Defaults to `${org}-${repo}-{branch}-tf-state`'
+    description: 'GCP Cloud Storage bucket to use for Terraform state. Defaults to `${org}-${repo}-{branch}-tf-state`'
     required: false
   tf_state_bucket_destroy:
-    description: 'Force purge and deletion of S3 bucket defined. Any file contained there will be destroyed. `stack_destroy` must also be `true`'
+    description: 'Force purge and deletion of Cloud Storage bucket. Any file contained there will be destroyed. `stack_destroy` must also be `true`'
     required: false
     default: 'false'
   repo_env:
@@ -43,7 +43,7 @@ inputs:
     description: '`.env` file to be used with the app from Github variables'
     required: false
   aws_secret_env:
-    description: 'Secret name to pull env variables from AWS Secret Manager'
+    description: 'Secret name to pull env variables from GCP Secret Manager'
     required: false
     default: ''
   app_port:
@@ -56,16 +56,16 @@ inputs:
   lb_healthcheck: 
     description: 'Load balancer health check string. Defaults to HTTP:app_port'
     required: false
-  ec2_instance_profile:
-    description: 'The AWS IAM instance profile to use for the EC2 instance'
-  ec2_instance_type: 
-    description: 'The AWS Instance type'
+  gcp_vm_instance_profile:
+    description: 'The GCP IAM instance profile to use for the GCP VM instance'
+  gcp_vm_instance_type: 
+    description: 'The GCP Instance type or Machine Family'
     required: false
-    default: 't2.small'
+    default: 'E2'
   stack_destroy:
     description: 'Set to "true" to Destroy the stack. Will delete the elb_logs bucket after the destroy action runs.'
   aws_resource_identifier:
-    description: 'Set to override the AWS resource identifier for the deployment.  Defaults to `${org}-{repo}-{branch}`.  Use with destroy to destroy specific resources.'
+    description: 'Set to override the GCP resource identifier for the deployment.  Defaults to `${org}-{repo}-{branch}`.  Use with destroy to destroy specific resources.'
   domain_name:
     description: 'Define the root domain name for the application. e.g. app.com'
     required: false
