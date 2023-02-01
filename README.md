@@ -1,5 +1,20 @@
 <!-- spell:disable -->
 <!-- markdownlint-disable MD033 -->
+
+# This is a Work In Progress
+
+* Currently running locally and auth'ing with `gcloud auth`:
+
+```shell
+❯ gc auth list
+   Credentialed Accounts
+ACTIVE  ACCOUNT
+*       maxcascone@gmail.com
+
+To set the active account, run:
+    $ gcloud config set account `ACCOUNT`
+```
+
 # Docker to GCP VM
 
 This is a [GitHub Action](https://github.com/features/actions) that can deploy any [Docker](https://www.bitovi.com/academy/learn-docker.html)-based app
@@ -39,7 +54,6 @@ You'll need to [enable authentication](https://cloud.google.com/docs/authenticat
 ## Environment variables
 
 <!-- # TODO: clarify this -->
-For environment variables in your app, you can provide:
 
 * `repo_env` - A file in your repo that contains env vars
 * `ghv_env` - An entry in [Github actions variables](https://docs.github.com/en/actions/learn-github-actions/variables)
@@ -130,7 +144,7 @@ The following inputs can be used as `step.with` keys
 | `checkout`          | Boolean | Set to `false` if the code is already checked out (Default is `true`) (Optional) |
 | `gcp_access_key_id` | String | GCP access key ID |
 | `gcp_default_region` | String | GCP default region |
-| `gcp_ami_id` | String | GCP AMI ID. Will default to latest Ubuntu 22.04 server image (HVM). Accepts `ami-####` values |
+| `gcp_image_id` | String | GCP Machine Image ID. Will default to latest Ubuntu 22.04 server image (HVM). Accepts `ami-####` values |
 | `domain_name` | String | Define the root domain name for the application. e.g. bitovi.com' |
 | `sub_domain` | String | Define the sub-domain part of the URL. Defaults to `${org}-${repo}-{branch}` |
 | `root_domain` | Boolean | Deploy application to root domain. Will create root and www records. Defaults to `false` |
