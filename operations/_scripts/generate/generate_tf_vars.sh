@@ -66,13 +66,13 @@ ec2_iam_instance_profile = \"${EC2_INSTANCE_PROFILE}\"
 
 ec2_instance_type = \"${EC2_INSTANCE_TYPE}\"
 
-aws_resource_identifier = \"${GITHUB_IDENTIFIER}\"
+gcp_resource_identifier = \"${GITHUB_IDENTIFIER}\"
 
-aws_resource_identifier_supershort = \"${GITHUB_IDENTIFIER_SS}\"
+gcp_resource_identifier_supershort = \"${GITHUB_IDENTIFIER_SS}\"
 
-aws_secret_env = \"${AWS_SECRET_ENV}\"
+gcp_secret_env = \"${GCP_SECRET_ENV}\"
 
-aws_ami_id = \"${AWS_AMI_ID}\"
+gcp_image_id = \"${GCP_IMAGE_ID}\"
 
 sub_domain_name = \"${SUB_DOMAIN}\"
 

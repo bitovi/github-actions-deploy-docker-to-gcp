@@ -11,12 +11,15 @@ inputs:
   # gcp_access_key_id:
   #   description: 'GCP access key ID'
   #   required: true
-  gcp_secret_access_key:
-    description: 'GCP secret access key'
-    required: true
+  # gcp_secret_access_key:
+  #   description: 'GCP secret access key'
+  #   required: true
   # aws_session_token:
   #   description: 'AWS session token'
   #   required: false
+  gcp_project_id:
+    description: 'GCP Project ID'
+    required: true
   gcp_default_region:
     description: 'GCP default region'
     required: true
@@ -64,7 +67,7 @@ inputs:
     default: 'E2'
   stack_destroy:
     description: 'Set to "true" to Destroy the stack. Will delete the elb_logs bucket after the destroy action runs.'
-  aws_resource_identifier:
+  gcp_resource_identifier:
     description: 'Set to override the GCP resource identifier for the deployment.  Defaults to `${org}-{repo}-{branch}`.  Use with destroy to destroy specific resources.'
   domain_name:
     description: 'Define the root domain name for the application. e.g. app.com'
@@ -114,24 +117,28 @@ runs:
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
         BITOPS_ENVIRONMENT: deployment
-        AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
-        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
-        AWS_SESSION_TOKEN: ${{ inputs.aws_session_token }}
-        AWS_DEFAULT_REGION: ${{ inputs.aws_default_region }}
-        AWS_AMI_ID: ${{ inputs.aws_ami_id }}
+        # AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
+        # AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
+        # AWS_SESSION_TOKEN: ${{ inputs.aws_session_token }}
+        # AWS_DEFAULT_REGION: ${{ inputs.aws_default_region }}
+        # AWS_AMI_ID: ${{ inputs.aws_ami_id }}
+        GCP_IMAGE_ID: ${{ inputs.gcp_image_id }}
+        GCP_PROJECT_ID: ${{ inputs.gcp_project_id }}
         TF_STATE_BUCKET: ${{ inputs.tf_state_bucket }}
         TF_STATE_BUCKET_DESTROY: ${{ inputs.tf_state_bucket_destroy }}
         REPO_ENV: ${{ inputs.repo_env }}
         GHS_ENV: ${{ inputs.dot_env }}
         GHV_ENV: ${{ inputs.ghv_env }}
-        AWS_SECRET_ENV: ${{ inputs.aws_secret_env }}
+        # AWS_SECRET_ENV: ${{ inputs.aws_secret_env }}
+        GCP_SECRET_ENV: ${{ inputs.gcp_secret_env }}
         APP_PORT: ${{ inputs.app_port }}
         LB_PORT: ${{ inputs.lb_port }}
         LB_HEALTHCHECK: ${{ inputs.lb_healthcheck }}
-        EC2_INSTANCE_PROFILE: ${{ inputs.ec2_instance_profile }}
-        EC2_INSTANCE_TYPE: ${{ inputs.ec2_instance_type }}
+        # EC2_INSTANCE_PROFILE: ${{ inputs.ec2_instance_profile }}
+        # EC2_INSTANCE_TYPE: ${{ inputs.ec2_instance_type }}
         STACK_DESTROY: ${{ inputs.stack_destroy }}
-        AWS_RESOURCE_IDENTIFIER: ${{ inputs.aws_resource_identifier }}
+        # AWS_RESOURCE_IDENTIFIER: ${{ inputs.aws_resource_identifier }}
+        GCP_RESOURCE_IDENTIFIER: ${{ inputs.gcp_resource_identifier }}
         DOMAIN_NAME: ${{ inputs.domain_name }}
         SUB_DOMAIN: ${{ inputs.sub_domain }}
         ROOT_DOMAIN: ${{ inputs.root_domain }}
@@ -139,7 +146,7 @@ runs:
         CREATE_ROOT_CERT: ${{ inputs.create_root_cert }}
         CREATE_SUB_CERT: ${{ inputs.create_sub_cert }}
         NO_CERT: ${{ inputs.no_cert }}
-        BITOPS_FAST_FAIL: true
+        BITOPS_FAST_FAIL: "true"
         APP_DIRECTORY: ${{ inputs.app_directory }}
         CREATE_KEYPAIR_SM_ENTRY: ${{ inputs.create_keypair_sm_entry }}
         ADDITIONAL_TAGS: ${{ inputs.additional_tags }}
