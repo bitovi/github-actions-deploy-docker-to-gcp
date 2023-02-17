@@ -23,7 +23,11 @@ inputs:
   gcp_default_region:
     description: 'GCP default region'
     required: true
-    default: 'us-east-1'
+    default: 'us-central1'
+  gcp_default_zone:
+    description: 'GCP default zone'
+    required: true
+    default: 'us-central1-a'
   gcp_image_id:
     description: 'GCP Machine Image ID. Will default to the latest Ubuntu 22.04 server image (HVM) '
     required: false
@@ -121,6 +125,8 @@ runs:
         # AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
         # AWS_SESSION_TOKEN: ${{ inputs.aws_session_token }}
         # AWS_DEFAULT_REGION: ${{ inputs.aws_default_region }}
+        GCP_DEFAULT_REGION: ${{ inputs.gcp_default_region }}
+        GCP_DEFAULT_ZONE: ${{ inputs.gcp_default_zone }}
         # AWS_AMI_ID: ${{ inputs.aws_ami_id }}
         GCP_IMAGE_ID: ${{ inputs.gcp_image_id }}
         GCP_PROJECT_ID: ${{ inputs.gcp_project_id }}

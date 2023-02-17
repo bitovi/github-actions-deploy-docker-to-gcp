@@ -62,7 +62,7 @@ lb_access_bucket_name = \"${LB_LOGS_BUCKET}\"
 
 security_group_name = \"${GITHUB_IDENTIFIER}\"
 
-ec2_iam_instance_profile = \"${EC2_INSTANCE_PROFILE}\"
+ec2_iam_instance_profile = \"${EC2_INSTANCE_PROFILE}\" #TODO: need to change these to GCP E2
 
 ec2_instance_type = \"${EC2_INSTANCE_TYPE}\"
 

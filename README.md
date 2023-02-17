@@ -87,14 +87,14 @@ on:
     branches: [ main ]
 
 jobs:
-  EC2-Deploy:
+  GCP-Deploy:
     runs-on: ubuntu-latest
     steps:
       - id: deploy
-        uses: bitovi/github-actions-deploy-docker-to-ec2@v0.4.1
+        uses: bitovi/github-actions-deploy-docker-to-gcp@wip
         with:
           gcp_access_key_id: ${{ secrets.GCP_ACCESS_KEY_ID }}
-          gcp_default_region: us-east-1
+          gcp_default_region: us-central1
           dot_env: ${{ secrets.DOT_ENV }}
 ```
 
@@ -118,10 +118,11 @@ jobs:
     steps:
     - id: deploy
       name: Deploy
-      uses: bitovi/github-actions-deploy-docker-to-ec2@v0.4.1
+      uses: bitovi/github-actions-deploy-docker-to-gcp@wip1
       with:
         gcp_access_key_id: ${{ secrets.GCP_ACCESS_KEY_ID }}
-        gcp_default_region: us-east-1
+        gcp_default_region: us-central1
+        gcp_default_zone: us-central1-a
         domain_name: bitovi.com
         sub_domain: app
         tf_state_bucket: my-terraform-state-bucket

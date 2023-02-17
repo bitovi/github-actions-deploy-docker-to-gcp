@@ -20,18 +20,20 @@ terraform {
   backend "gcs" {
     bucket = \"${TF_STATE_BUCKET}\"
     key    = \"tf-state\"
-    # encrypt = true #AES-256encryption TODO: confirm gcp syntax
+    # encrypt = true #AES-256encryption #TODO: confirm gcp syntax
   }
 }
  
-data \"aws_region\" \"current\" {}
+data \"gcp_region\" \"current\" {}
 
-provider \"aws\" {
-  region = \"${AWS_DEFAULT_REGION}\"
-  profile = \"default\"
+provider \"google\" {
+  project = \"${GCP_PROJECT_ID}\"
+  region  = \"${GCP_DEFAULT_REGION}\"
+  zone    = \"${GCP_DEFAULT_ZONE}\"
+  # profile = \"default\" #TODO: is this needed?
   default_tags {
     tags = merge(
-      local.aws_tags,
+      local.gcp_tags,
       var.additional_tags
     )
   }
