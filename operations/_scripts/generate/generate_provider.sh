@@ -17,10 +17,10 @@ terraform {
     version = \"4.53.1\"
   }
 
-  backend "gcs" {
+  backend \"gcs\" {
     bucket = \"${TF_STATE_BUCKET}\"
     key    = \"tf-state\"
-    # encrypt = true #AES-256encryption #TODO: confirm gcp syntax
+    # encrypt = true #AES-256encryption #TODO confirm gcp syntax
   }
 }
  
@@ -30,7 +30,7 @@ provider \"google\" {
   project = \"${GCP_PROJECT_ID}\"
   region  = \"${GCP_DEFAULT_REGION}\"
   zone    = \"${GCP_DEFAULT_ZONE}\"
-  # profile = \"default\" #TODO: is this needed?
+  # profile = \"default\" #TODO is this needed?
   default_tags {
     tags = merge(
       local.gcp_tags,
