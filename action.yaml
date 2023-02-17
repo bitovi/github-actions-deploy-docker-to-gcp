@@ -8,15 +8,9 @@ inputs:
     description: 'Specifies if this action should checkout the code'
     required: false
     default: 'true'
-  # gcp_access_key_id:
-  #   description: 'GCP access key ID'
-  #   required: true
-  # gcp_secret_access_key:
-  #   description: 'GCP secret access key'
-  #   required: true
-  # aws_session_token:
-  #   description: 'AWS session token'
-  #   required: false
+  gcp_secret_access_key:
+    description: 'GCP secret access key - the whole json object provided by google'
+    required: true
   gcp_project_id:
     description: 'GCP Project ID'
     required: true
@@ -125,6 +119,7 @@ runs:
         # AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
         # AWS_SESSION_TOKEN: ${{ inputs.aws_session_token }}
         # AWS_DEFAULT_REGION: ${{ inputs.aws_default_region }}
+        GCP_SECRET_ACCESS_KEY: ${{ inputs.gcp_secret_access_key }}
         GCP_DEFAULT_REGION: ${{ inputs.gcp_default_region }}
         GCP_DEFAULT_ZONE: ${{ inputs.gcp_default_zone }}
         # AWS_AMI_ID: ${{ inputs.aws_ami_id }}

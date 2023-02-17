@@ -8,12 +8,17 @@ variable "name" {
 
 variable "machine_type" {
   type    = string
-  default = "e2-standard-1"
+  default = "e2-micro"
 }
 
 variable "image" {
   type    = string
   default = "ubuntu-minimal-2210-kinetic-amd64-v20230126"
+}
+
+variable "region" {
+  type    = string
+  default = "us-central"
 }
 
 variable "zone" {
