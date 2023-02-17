@@ -12,9 +12,11 @@ echo "In generate_provider.sh"
 
 echo "
 terraform {
-  google = {
-    source = \"hashicorp/google\"
-    version = \"4.53.1\"
+  required_providers {
+    google = {
+      source = \"hashicorp/google\"
+      version = \"4.53.1\"
+    }
   }
 
   backend \"gcs\" {
@@ -39,8 +41,8 @@ provider \"google\" {
   }
 }
 
-resource \"google_compute_network\" \"vpc_network\" {
-  name = \"terraform-network\"
-}
+# resource \"google_compute_network\" \"vpc_network\" {
+#   name = \"terraform-network\"
+# }
 
 " >> "${GITHUB_ACTION_PATH}/operations/deployment/terraform/provider.tf"
