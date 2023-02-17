@@ -12,18 +12,15 @@ echo "In generate_provider.sh"
 
 echo "
 terraform {
-  required_providers {
-    aws = {
-      source  = \"hashicorp/aws\"
-      version = \"~> 3.0\"
-    }
-
+  google = {
+    source = \"hashicorp/google\"
+    version = \"4.51.0\"
   }
-  backend \"s3\" {
-    region  = \"${AWS_DEFAULT_REGION}\"
-    bucket  = \"${TF_STATE_BUCKET}\"
-    key     = \"tf-state\"
-    encrypt = true #AES-256encryption
+
+  backend "gcs" {
+    bucket = \"${TF_STATE_BUCKET}\"
+    key    = \"tf-state\"
+    # encrypt = true #AES-256encryption TODO: confirm gcp syntax
   }
 }
  
