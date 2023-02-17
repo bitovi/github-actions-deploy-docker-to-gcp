@@ -31,6 +31,7 @@ if [ -z "$SUB_DOMAIN" ]; then
   SUB_DOMAIN="$GITHUB_IDENTIFIER"
 fi
 
+# TODO: change to E2
 if [ -z "${EC2_INSTANCE_PROFILE}" ]; then
   EC2_INSTANCE_PROFILE="${GITHUB_IDENTIFIER}"
 fi
@@ -59,12 +60,13 @@ app_install_root = \"/home/ubuntu\"
 # logs
 lb_access_bucket_name = \"${LB_LOGS_BUCKET}\"
 
-
 security_group_name = \"${GITHUB_IDENTIFIER}\"
 
 ec2_iam_instance_profile = \"${EC2_INSTANCE_PROFILE}\" #TODO: need to change these to GCP E2
 
 ec2_instance_type = \"${EC2_INSTANCE_TYPE}\"
+
+gcp_machine_type = \"${GCP_INSTANCE_TYPE}\"
 
 gcp_resource_identifier = \"${GITHUB_IDENTIFIER}\"
 

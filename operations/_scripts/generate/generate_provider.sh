@@ -39,4 +39,8 @@ provider \"google\" {
   }
 }
 
+resource \"google_compute_network\" \"vpc_network\" {
+  name = \"terraform-network\"
+}
+
 " >> "${GITHUB_ACTION_PATH}/operations/deployment/terraform/provider.tf"

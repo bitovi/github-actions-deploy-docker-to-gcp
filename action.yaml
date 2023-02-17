@@ -63,10 +63,10 @@ inputs:
   lb_healthcheck: 
     description: 'Load balancer health check string. Defaults to HTTP:app_port'
     required: false
-  gcp_vm_instance_profile:
+  gcp_instance_profile:
     description: 'The GCP IAM instance profile to use for the GCP VM instance'
-  gcp_vm_instance_type: 
-    description: 'The GCP Instance type or Machine Family'
+  gcp_instance_type: 
+    description: 'The GCP Instance Type or Machine Family'
     required: false
     default: 'E2'
   stack_destroy:
@@ -142,6 +142,7 @@ runs:
         LB_HEALTHCHECK: ${{ inputs.lb_healthcheck }}
         # EC2_INSTANCE_PROFILE: ${{ inputs.ec2_instance_profile }}
         # EC2_INSTANCE_TYPE: ${{ inputs.ec2_instance_type }}
+        GCP_INSTANCE_TYPE: ${{ inputs.gcp_instance_type }}
         STACK_DESTROY: ${{ inputs.stack_destroy }}
         # AWS_RESOURCE_IDENTIFIER: ${{ inputs.aws_resource_identifier }}
         GCP_RESOURCE_IDENTIFIER: ${{ inputs.gcp_resource_identifier }}
