@@ -21,7 +21,7 @@ terraform {
 
   backend \"gcs\" {
     bucket = \"${TF_STATE_BUCKET}\"
-    key    = \"tf-state\"
+    prefix    = \"tf-state\"
     # encrypt = true #AES-256encryption #TODO confirm gcp syntax
   }
 }
