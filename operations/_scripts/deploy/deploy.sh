@@ -50,6 +50,10 @@ echo "::endgroup::"
 echo "::group::BitOps Excecution"  
 echo "Running BitOps for env: $BITOPS_ENVIRONMENT"
 docker run --rm --name bitops \
+-e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
+-e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
+-e AWS_SESSION_TOKEN="${AWS_SESSION_TOKEN}" \
+-e AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}" \
 -e GCP_DEFAULT_REGION="${GCP_DEFAULT_REGION}" \
 -e GCP_DEFAULT_ZONE="${GCP_DEFAULT_ZONE}" \
 -e BITOPS_ENVIRONMENT="${BITOPS_ENVIRONMENT}" \
